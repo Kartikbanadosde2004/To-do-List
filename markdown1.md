@@ -2,7 +2,8 @@
 
 ## 1. Project Overview
 **Purpose:**
-This is a simple web application that helps users manage their daily tasks. It allows users to create a list of things they need to do, update them when they are finished, and delete them if they are no longer needed.
+This is a simple web application that helps users manage their daily tasks. It allows users to create a list of things they need to do, update them when they are finished, and 
+delete them if they are no longer needed.
 
 **Who is this for?**
 * **Users:** Anyone who wants to organize their daily work.
@@ -10,7 +11,7 @@ This is a simple web application that helps users manage their daily tasks. It a
 
 ## 2. Diagrams
 
-2.1 System Flow
+### 2.1 System Flow
 *This shows the steps a user takes in the app.*
 ```mermaid
 flowchart TD
@@ -64,32 +65,26 @@ erDiagram
         int id PK
         int user_id FK
         string title
-        string status
+        boolean is_completed
         string priority
     }
 3. Features (Requirements)
 3.1 User Accounts
 Registration: A new user can create an account with a username and password.
-
 Login: The user can log in to see their personal tasks.
-
 Security: Passwords are not saved as plain text; they are "hashed" (scrambled) for safety.
 
 Logout: The user can sign out to protect their account.
 
 3.2 Managing Tasks (CRUD)
 Create: Add a new task with a title and priority (High, Medium, Low).
-
 Read: View a list of all pending and completed tasks.
-
 Update: Change a task's details or mark it as "Done".
-
 Delete: Permanently remove a task from the list.
 
 4. Technical Tools
 4.1 Backend (Logic)
 Python: The main programming language.
-
 Flask: A lightweight tool (framework) that helps Python build websites. It handles the links (URLs) and logic.
 
 4.2 Database (Storage)
@@ -97,16 +92,12 @@ MySQL: The database used to store user info and tasks.
 
 4.3 Frontend (Design)
 HTML: Creates the structure of the pages (forms, buttons, lists).
-
 CSS: Makes the pages look good (colors, layout).
 
-5. Future Improvements
-* Add a "Due Date" notification feature.
-* Make the dashboard mobile-responsive.
-
-
-
-
+5. Future Scope (Improvements)
+Due Date Reminders: Add email notifications when a task is close to its deadline.
+Categories: Allow users to tag tasks as "Work," "Personal," or "Study."
+Mobile Responsive: Improve CSS to make the app look perfect on phone screens.
 
 
 
