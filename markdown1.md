@@ -1,84 +1,95 @@
- markdown
-# To-do-list
-## Diagrams
+To-Do List Application
+1.Project Overview
 
-# To-do-List
-## Diagrams
- main
-### 1. System Flow Diagram
-```mermaid
+Purpose: This is a simple web application that helps users manage their daily tasks. It allows users to create a list of things they need to do, update them when they are finished, and delete them if they are no longer needed.
+
+2. Requirements :
+
+2.1 User Accounts
+Registration: A new user can create an account with a username and password.
+
+Login: The user can log in to see their personal tasks.
+
+Security: Passwords are not saved as plain text; they are "hashed" (scrambled) for safety.
+
+Logout: The user can sign out to protect their account.
+
+2.2  Managing Tasks (CRUD)
+Create: Add a new task with a title and priority (High, Medium, Low).
+
+Read: View a list of all pending and completed tasks.
+
+Update: Change a task's details or mark it as "Done".
+
+Delete: Permanently remove a task from the list.
+
+3. Technical Tools
+3.1 Backend (Logic)
+Python: The main programming language.
+
+Flask: A lightweight tool (framework) that helps Python build websites. It handles the links (URLs) and logic.
+
+3.2 Database (Storage)
+MySQL: The database used to store user info and tasks.
+
+3.3 Frontend (Design)
+HTML: Creates the structure of the pages (forms, buttons, lists).
+CSS: Makes the pages look good (colors, layout).
+
+4. Diagrams
+
+4.1 System Flow
+
 flowchart TD
-    A[User] --> B[Register / Login]
-    B --> C[Authentication & Session]
-    C --> D[Create Task]
-    D --> E[Edit / Delete Task]
-    E --> F[Update Status]
-    F --> G[View Task History]
-    G --> H[Logout]
-```
+    Start([Start]) --> Login[Login Page]
+    Login --> Check{Password Correct?}
+    
+    Check -- No --> Login
+    Check -- Yes --> Dashboard[User Dashboard]
 
-### 2. Use Case Diagram
-```mermaid
-graph TD
-    Student -->|Register / Login| System
-    Employee -->|Create Task| System
-    Manager -->|Edit Task| System
-    Student -->|Delete Task| System
-    Admin -->|Monitor Users| System
-```
+    Dashboard --> Choice{What to do?}
+    
+    Choice --> Add[Add New Task]
+    Choice --> Edit[Edit Task]
+    Choice --> Delete[Remove Task]
+    Choice --> Done[Mark as Completed]
+    
+    Add --> Save[Save to Database]
+    Edit --> Save
+    Delete --> Save
+    Done --> Save
+    
+    Save --> Dashboard
+    Dashboard --> Logout([Logout])
 
-### 3. ER Diagram
-```mermaid
-erDiagram
-    USER ||--o{ TASK : manages
+    4.2 Use Case Diagram
+
+    graph TD
+    User((User))
+    System[To-Do App]
+
+    User -->|Register & Login| System
+    User -->|Add Task| System
+    User -->|Edit Task| System
+    User -->|Delete Task| System
+    User -->|Complete Task| System
+
+    4.3 ER Diagram (Database Design)
+
+    erDiagram
+    USER ||--o{ TASK : "has"
 
     USER {
-        int user_id
+        int id PK
         string username
         string password
-        string role
     }
 
     TASK {
-        int task_id
+        int id PK
+        int user_id FK
         string title
-        string priority
         string status
+        string priority
     }
-```
-
-
-1. Purpose
-It is to help users manage their daily tasks efficiently.
-The system allows users to create, update, and track tasks so that they can organize their work and improve productivity.
-
-2. Users
-The users of the system include:
-•	Employees
-•	Managers
-•	Admin
-3. Scope
-•	Creating and managing daily tasks
-•	Updating task status 
-•	Viewing task lists based on priority
-•	Secure user login and task management
-•	Admin monitoring user activity
-4. Functional Requirements
-•	User registration and login
-•	User authentication using username and password
-•	Create new tasks
-•	Edit existing tasks
-•	Delete tasks
-•	Mark tasks as completed
-•	View task history
-5. Technical and Backend Technology
-•	Programming Language: Python
-•	Framework: Flask
-•	Database:MySQL
-6. Frontend Technology
-•	HTML
-•	CSS
- markdown
-
-
- main
+    }
