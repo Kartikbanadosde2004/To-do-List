@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - To-Do List{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Welcome, {{ user.username }}!</h2>
+        <p class="text-muted">Your role: {{ user.role }}</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Add New Task</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('main.add_task') }}" class="d-flex gap-2">
+                    <input type="text" class="form-control" name="title" placeholder="Enter task title..." required>
+                    <select class="form-select" name="priority" style="width: 150px;">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Your Tasks</h4>
+        
+        {% if user.tasks|length == 0 %}
+            <div class="alert alert-info">No tasks yet. Add your first task above!</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px;">Status</th>
+                            <th>Task</th>
+                            <th>Priority</th>
+                            <th>Created</th>
+                            <th style="width: 180px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in user.tasks|sort(attribute='created_at', reverse=True) %}
+                        <tr class="{% if task.is_completed %}table-success{% endif %}">
+                            <td>
+                                <form method="POST" action="{{ url_for('main.update_task', task_id=task.task_id) }}">
+                                    <input type="hidden" name="action" value="toggle">
+                                    <button type="submit" class="btn btn-sm {% if task.is_completed %}btn-success{% else %}btn-outline-secondary{% endif %}" title="Toggle completion">
+                                        {% if task.is_completed %}✓{% else %}○{% endif %}
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="{% if task.is_completed %}text-decoration-line-through text-muted{% endif %}">
+                                {{ task.title }}
+                            </td>
+                            <td>
+                                {% if task.priority == 'high' %}
+                                    <span class="badge bg-danger">High</span>
+                                {% elif task.priority == 'medium' %}
+                                    <span class="badge bg-warning text-dark">Medium</span>
+                                {% else %}
+                                    <span class="badge bg-info text-dark">Low</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ task.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                <form method="POST" action="{{ url_for('main.delete_task', task_id=task.task_id) }}" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this task?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
